@@ -89,7 +89,7 @@ class MainActivity : Activity() {
 
         val version = TextView(this)
         version.textSize = 18f
-        version.text = "ワンタップデイト  v1.2  by Hibaruzakura"
+        version.text = "ワンタップデイト  v1.3  by Hibaruzakura"
         layout.addView(version)
 
         status = TextView(this)

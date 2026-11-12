@@ -383,14 +383,27 @@ class DateButtonService : AccessibilityService() {
         for (i in 0 until DateFormats.templateCount) {
             if (!order.contains(i)) order.add(i)
         }
+        val used = prefs().contains(DateFormats.KEY_LAST_TPL)
         for (i in order) {
-            col.addView(menuItem("📝 " + DateFormats.templateName(i) + " を挿入") {
+            // 前回使ったテンプレートには ✔ を付ける
+            val mark = if (used && i == last) "✔ " else "📝 "
+            col.addView(menuItem(mark + DateFormats.templateName(i) + " を挿入") {
                 closePanel()
                 insertTemplate(target, i)
             })
         }
-        col.addView(menuItem("日付の形式を選ぶ（本文）") { showFormatPicker(false) })
-        col.addView(menuItem("日付の形式を選ぶ（タイトル欄）") { showFormatPicker(true) })
+        // いま選ばれている形式を、今日の日付の見本で表示する
+        val now = Date()
+        val bodySample = DateFormats.format(now, prefs().getInt(DateFormats.KEY_FORMAT, 0))
+        val titleSample = if (prefs().getBoolean(DateFormats.KEY_AUTO, false)) {
+            DateFormats.format(
+                now, prefs().getInt(DateFormats.KEY_TITLE_FORMAT, DateFormats.DEFAULT_TITLE)
+            )
+        } else {
+            "本文と同じ"
+        }
+        col.addView(menuItem("日付の形式（本文）: " + bodySample) { showFormatPicker(false) })
+        col.addView(menuItem("日付の形式（タイトル欄）: " + titleSample) { showFormatPicker(true) })
         col.addView(menuItem("⚙ 設定画面を開く") {
             closePanel()
             openSettings()

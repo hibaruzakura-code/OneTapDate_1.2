@@ -12,7 +12,7 @@ object DateFormats {
     const val KEY_AUTO = "auto_switch"               // タイトル欄を見分けて切り替えるか
     const val KEY_VISIBLE = "visible"
     const val KEY_LAST_TPL = "last_template"         // 最後に使ったテンプレート
-    const val DEFAULT_TITLE = 6                      // 261108
+    const val DEFAULT_TITLE = 0                      // 本文と同じ 2026/11/08
 
     private class Fmt(val group: String, val pattern: String, val era: Boolean = false)
 
